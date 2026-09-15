@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM Visual Debugger - Lâmpadas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="barra-fixa">
+  <div class="barra-linha">
+    <div class="resumo">
+      <strong>DOM Visual Debugger 💡</strong>
+      <span id="etapaTitulo">HTML cria os elementos</span>
+      <span id="status" class="status">Etapa 1/8</span>
+    </div>
+    <div class="controles">
+      <button id="anterior">←</button>
+      <button id="reiniciar">Reiniciar</button>
+      <button id="proximo" class="primario">Próximo →</button>
+    </div>
+  </div>
+  <div class="explicacao-topo"><span id="etapaNumeroTopo">1</span><span id="etapaTextoTopo">O navegador cria o DOM a partir do HTML.</span></div>
+</header>
+
+<main>
+
+  <section class="workspace">
+    <article class="painel">
+      <h2 class="html">DOM / HTML ATUAL <small>muda em tempo real</small></h2>
+      <pre id="domCode"><code><span data-dom="1">&lt;div class="sala"&gt;</span>
+<span data-dom="2">  &lt;img class="<mark id="classe0">lampada</mark>"&gt;</span>
+<span data-dom="3">  &lt;img class="<mark id="classe1">lampada</mark>"&gt;</span>
+<span data-dom="4">  &lt;img class="<mark id="classe2">lampada</mark>"&gt;</span>
+<span data-dom="5">&lt;/div&gt;</span>
+<span data-dom="6">&lt;p&gt;Cliques: &lt;span id="contador"&gt;<mark id="domContador">0</mark>&lt;/span&gt;&lt;/p&gt;</span>
+<span data-dom="7">&lt;button id="ajuda"&gt;?&lt;/button&gt;</span></code></pre>
+      <div class="dom-nota">O arquivo HTML original não muda. Este painel representa o <strong>DOM atual na memória do navegador</strong>.</div>
+    </article>
+
+    <article class="painel">
+      <h2 class="css">CSS</h2>
+      <pre id="cssCode"><code><span data-css="1">.lampada { filter: grayscale(1); }</span>
+<span data-css="2">.lampada.ligada { filter: grayscale(0); }</span>
+<span data-css="3">#ajuda {</span>
+<span data-css="4">  position: fixed;</span>
+<span data-css="5" id="cssVertical">  bottom: 20px;</span>
+<span data-css="6" id="cssHorizontal">  right: 20px;</span>
+<span data-css="7">}</span></code></pre>
+      <div id="cssAtivo" class="css-ativo">CSS ativo: <strong>.lampada</strong></div>
+    </article>
+
+    <article class="painel js-painel">
+      <h2 class="js">JAVASCRIPT</h2>
+      <pre id="jsCode"><code><span data-js="1">const lampadas =</span>
+<span data-js="2"> document.querySelectorAll(".lampada");</span>
+<span data-js="3">const contador =</span>
+<span data-js="4"> document.querySelector("#contador");</span>
+<span data-js="5">lampadas.forEach(function(lampada) {</span>
+<span data-js="6"> lampada.addEventListener("click", function() {</span>
+<span data-js="7">   lampada.classList.toggle("ligada");</span>
+<span data-js="8">   contador.textContent++;</span>
+<span data-js="9"> });</span>
+<span data-js="10">});</span></code></pre>
+    </article>
+
+    <article class="painel resultado">
+      <h2 class="view">NAVEGADOR</h2>
+      <div class="pagina">
+        <div class="sala">
+          <button class="lampada" data-i="0"><span>💡</span><small>1</small></button>
+          <button class="lampada" data-i="1"><span>💡</span><small>2</small></button>
+          <button class="lampada" data-i="2"><span>💡</span><small>3</small></button>
+        </div>
+        <p class="contador-linha">Cliques: <strong id="contador">0</strong></p>
+        <button type="button" class="canto-label canto-alvo sup-esq" data-v="top" data-h="left">top + left</button>
+        <button type="button" class="canto-label canto-alvo sup-dir" data-v="top" data-h="right">top + right</button>
+        <button type="button" class="canto-label canto-alvo inf-esq" data-v="bottom" data-h="left">bottom + left</button>
+        <button type="button" class="canto-label canto-alvo inf-dir" data-v="bottom" data-h="right">bottom + right</button>
+        <div id="ajuda" class="pos-inf-dir" title="Posição demonstrada pelo CSS">?</div>
+      </div>
+    </article>
+  </section>
+
+  <section class="execucao">
+      <div class="debug-grid">
+        <div class="console" id="console"><b>&gt;</b> Pronto.</div>
+        <div class="exec-controles">
+          <button id="passoAnterior" disabled>← Passo</button>
+          <span id="passoStatus">Aguardando clique</span>
+          <button id="proximoPasso" disabled>Próximo passo →</button>
+        </div>
+        <div class="variaveis">
+          <span>lampada: <strong id="varLampada">—</strong></span>
+          <span>classe: <strong id="varClasse">—</strong></span>
+          <span>contador: <strong id="varAntes">0</strong> → <strong id="varDepois">0</strong></span>
+        </div>
+      </div>
+    </section>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
