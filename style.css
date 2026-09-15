@@ -1,0 +1,210 @@
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#edf1f5;color:#1f2937;font-family:Arial,sans-serif;font-size:14px}
+.barra-fixa{position:sticky;top:0;z-index:100;background:#172033;color:#fff;padding:9px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 2px 8px #0003}
+.resumo,.controles{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.resumo>span:not(.status){color:#cbd5e1}.status{background:#334155;padding:5px 9px;border-radius:20px;font-size:12px}
+button{cursor:pointer}.controles button{border:0;border-radius:7px;padding:8px 12px;font-weight:bold}.primario{background:#2563eb;color:#fff}
+main{max-width:1350px;margin:auto;padding:12px}.explicacao{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #d7dde6;border-radius:9px;padding:8px 12px;margin-bottom:10px}
+.explicitacao p,.explicacao p{margin:0}.explicacao div{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#2563eb;color:#fff;font-weight:bold}
+.workspace{display:grid;grid-template-columns:1fr 1fr;gap:10px}.painel{background:#111827;border-radius:9px;overflow:hidden;border:1px solid #344052;min-width:0}
+.painel h2{font-size:12px;letter-spacing:.5px;margin:0;padding:6px 10px;color:#fff}.html{background:#a84f08}.css{background:#1d4ed8}.js{background:#766000}.view{background:#047857}
+pre{margin:0;padding:9px 11px;color:#e5e7eb;font:13px/1.4 Consolas,Monaco,monospace;min-height:188px;overflow:auto}
+pre span{display:block;padding:0 4px;border-left:3px solid transparent;transition:.15s}.hot{background:#374151!important;border-left-color:#fbbf24!important;color:#fff!important}
+.pagina{position:relative;min-height:188px;background:#fff;color:#222;text-align:center;padding:10px}.instrucao{margin:3px 0 8px;color:#64748b;font-size:12px}
+.sala{display:flex;justify-content:center;gap:10px}.lampada{border:2px solid transparent;border-radius:8px;background:#f1f5f9;padding:4px 10px;min-width:76px}.lampada span{display:block;font-size:46px;filter:grayscale(1);opacity:.4}.lampada small{display:block}.lampada.ligada span{filter:none;opacity:1}.lampada.encontrada{border-color:#2563eb;background:#dbeafe}.lampada.loop{border-color:#f59e0b;background:#fef3c7;transform:translateY(-3px)}.lampada.evento{outline:2px solid #7c3aed}
+.contador-linha{margin:8px 0;font-size:16px}.contador-pulso{display:inline-block;animation:pulso .45s ease;background:#fef08a;border-radius:5px;padding:2px 5px}
+#ajuda{position:absolute;right:8px;bottom:8px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#172033;color:#fff;font-weight:bold}.ajuda-hot{outline:4px solid #f59e0b}
+.execucao{position:sticky;bottom:0;z-index:90;margin-top:10px;background:#fff;border:1px solid #cbd5e1;border-radius:9px;padding:9px;box-shadow:0 -2px 10px #0002}
+.fluxo{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}.passo{border:2px solid #cbd5e1;border-radius:7px;padding:6px 9px;background:#f8fafc;font-size:12px;font-weight:bold;transition:.15s}.passo.ativo{border-color:#2563eb;background:#dbeafe;transform:scale(1.05)}
+.debug-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:8px;margin-top:7px}.console{background:#0b1020;color:#a7f3d0;border-radius:6px;padding:7px 10px;font:12px Consolas,monospace}.console b{color:#60a5fa}.variaveis{background:#f1f5f9;border-radius:6px;padding:7px 10px;display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+@keyframes pulso{50%{transform:scale(1.35)}}@media(max-width:800px){.workspace{grid-template-columns:1fr}.barra-fixa{position:sticky}.execucao{position:static}.debug-grid{grid-template-columns:1fr}pre{min-height:auto}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.painel h2 small{font-weight:normal;opacity:.75;font-size:10px;margin-left:6px}
+#domCode mark{background:transparent;color:inherit;padding:0}
+#domCode mark.dom-change{background:#fde68a;color:#111827;border-radius:3px;animation:domFlash 1.2s ease}
+.dom-nota,.css-ativo{background:#1f2937;color:#cbd5e1;border-top:1px solid #344052;padding:6px 10px;font-size:11px}
+.css-ativo strong{color:#fbbf24}.css-ativo.acesa strong{color:#86efac}
+@keyframes domFlash{0%,100%{background:#fde68a}50%{background:#fb923c;transform:scale(1.08)}}
+
+#ajuda{cursor:grab;user-select:none;touch-action:none;z-index:10;transition:left .2s,right .2s,top .2s,bottom .2s}
+#ajuda.arrastando{cursor:grabbing;transition:none;opacity:.8}
+.canto-label{display:none;position:absolute;font:10px Consolas,monospace;color:#64748b;background:#f1f5f9;padding:3px 5px;border-radius:4px;border:1px dashed #94a3b8}
+.pagina.modo-posicao .canto-label{display:block}
+.sup-esq{top:7px;left:7px}.inf-esq{bottom:7px;left:7px}.inf-dir{bottom:7px;right:50px}
+
+.barra-fixa{display:block;padding:7px 14px}
+.barra-linha{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.fluxo-topo{margin:6px 0 0;color:#e5e7eb;gap:5px}
+.fluxo-topo .passo{padding:4px 7px;font-size:10px;background:#253047;border-color:#475569;color:#e5e7eb}
+.fluxo-topo .passo.ativo{background:#dbeafe;color:#1e3a8a;border-color:#60a5fa}
+.fluxo-topo>b{font-size:11px;color:#94a3b8}
+.execucao{position:static;margin-top:10px}
+#ajuda{cursor:pointer;touch-action:auto}
+#ajuda.arrastando{cursor:pointer}
+.sup-dir{top:7px;right:7px}
+
+/* v6: explicação da etapa fica na barra superior, ocupando o espaço do fluxo duplicado */
+.explicacao-topo{
+  margin-top:6px;
+  min-height:34px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:5px 10px;
+  border-top:1px solid #334155;
+  color:#e5e7eb;
+}
+#etapaNumeroTopo{
+  flex:0 0 25px;
+  height:25px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#2563eb;
+  color:white;
+  font-weight:700;
+  font-size:12px;
+}
+#etapaTextoTopo{font-size:12px;line-height:1.25}
+.fluxo-footer{margin-bottom:7px}
+
+/* v7: os quatro cantos são controles clicáveis na etapa final */
+.canto-alvo{
+  cursor:pointer;
+  z-index:20;
+  appearance:none;
+  font-family:Consolas,monospace;
+}
+.pagina.modo-posicao .canto-alvo{
+  display:block;
+  pointer-events:auto;
+}
+.canto-alvo:hover{
+  background:#dbeafe;
+  border-color:#2563eb;
+  color:#1d4ed8;
+}
+.canto-alvo.canto-ativo{
+  background:#dbeafe;
+  border:2px solid #2563eb;
+  color:#1d4ed8;
+  font-weight:700;
+}
+#ajuda{pointer-events:none}
+
+/* v8: footer mínimo e fixo, apenas console + variáveis */
+.execucao{
+  position:sticky !important;
+  bottom:0;
+  z-index:90;
+  padding:7px 12px !important;
+  margin-top:8px;
+  background:#ffffff;
+  border-top:1px solid #cbd5e1;
+}
+.execucao .debug-grid{margin:0}
+.execucao .fluxo,.fluxo-footer{display:none !important}
+
+/* v8: posição visual do ? controlada por classes exclusivas */
+.pagina{position:relative}
+#ajuda{
+  position:absolute !important;
+  top:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  left:auto !important;
+  pointer-events:none;
+  transition:top .28s ease,bottom .28s ease,left .28s ease,right .28s ease;
+}
+#ajuda.pos-sup-esq{top:12px !important;left:12px !important}
+#ajuda.pos-sup-dir{top:12px !important;right:12px !important}
+#ajuda.pos-inf-esq{bottom:12px !important;left:12px !important}
+#ajuda.pos-inf-dir{bottom:12px !important;right:12px !important}
+
+/* v9 limpeza final */
+.fluxo,.fluxo-topo,.fluxo-footer,.passo{display:none !important}
+.instrucao{display:none !important}
+
+.execucao{
+  position:fixed !important;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:999;
+  margin:0 !important;
+  padding:6px 14px !important;
+  background:#fff;
+  border-top:1px solid #cbd5e1;
+  box-shadow:0 -2px 8px rgba(15,23,42,.12);
+}
+.execucao .debug-grid{margin:0 !important}
+main{padding-bottom:58px}
+
+/* Cantos realmente clicáveis */
+.pagina.modo-posicao .canto-alvo{
+  display:block !important;
+  pointer-events:auto !important;
+  cursor:pointer !important;
+  z-index:50 !important;
+}
+.canto-alvo:hover{background:#bfdbfe !important}
+.canto-alvo.canto-ativo{
+  background:#dbeafe !important;
+  border:2px solid #2563eb !important;
+}
+
+/* ? acompanha a posição escolhida dentro do navegador simulado */
+#ajuda{
+  position:absolute !important;
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  z-index:40 !important;
+  pointer-events:none !important;
+  transition:all .25s ease;
+}
+#ajuda.pos-top-left{top:14px !important;left:14px !important;right:auto !important;bottom:auto !important}
+#ajuda.pos-top-right{top:14px !important;right:14px !important;left:auto !important;bottom:auto !important}
+#ajuda.pos-bottom-left{bottom:14px !important;left:14px !important;right:auto !important;top:auto !important}
+#ajuda.pos-bottom-right{bottom:14px !important;right:14px !important;left:auto !important;top:auto !important}
+
+/* v11 - limpeza estrutural definitiva */
+.execucao > b,.execucao > .passo,.execucao > .fluxo{display:none!important}
+.execucao{height:auto!important;min-height:0!important}
+.debug-grid{display:grid!important}
+#ajuda.pos-bottom-right{bottom:14px!important;right:14px!important;top:auto!important;left:auto!important}
+#ajuda.pos-bottom-left{bottom:14px!important;left:14px!important;top:auto!important;right:auto!important}
+#ajuda.pos-top-left{top:14px!important;left:14px!important;bottom:auto!important;right:auto!important}
+#ajuda.pos-top-right{top:14px!important;right:14px!important;bottom:auto!important;left:auto!important}
+
+/* v12: execução didática manual, um passo por clique */
+.execucao .debug-grid{
+  grid-template-columns:minmax(320px,1.7fr) auto minmax(280px,1fr) !important;
+  align-items:center;
+  gap:8px;
+}
+.exec-controles{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+}
+.exec-controles button{
+  border:1px solid #94a3b8;
+  border-radius:6px;
+  padding:6px 9px;
+  font-weight:700;
+  cursor:pointer;
+}
+.exec-controles button:disabled{opacity:.4;cursor:not-allowed}
+#proximoPasso:not(:disabled){background:#2563eb;color:white;border-color:#2563eb}
+#passoStatus{
+  min-width:74px;
+  text-align:center;
+  font-size:11px;
+  font-weight:700;
+  color:#475569;
+}
+@media(max-width:900px){
+  .execucao .debug-grid{grid-template-columns:1fr !important}
+  .exec-controles{justify-content:center}
+}
